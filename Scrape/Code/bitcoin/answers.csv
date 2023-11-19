@@ -1,0 +1,111 @@
+Question_Title,Answer
+"
+Ethers is not decoding the indexed parameters
+","
+If you're seeing an error Interface is not constructor, it might be worthwhile to check for any typos or mistakes in the const iface = new ethers.Interface(abi); line of the solution (maybe 9th line).
+Alternatively, the issue might be due to a change in the specifications of ethers.js because of version differences. Here, it appears to be structured under a hierarchy like this.
+new ethers.utils.Interface(abi);
+"
+"
+importing other contract in remix gone wrong despite write file name or path
+","
+Without the folder and file structures, exact names of the contracts, it is hard to find the issue. Anyway you can try these,
+
+Try using absolute file path instead of the relative file path. (Anyway the relative path also should work fine)
+Check the contract names as it is case-sensitive.
+
+"
+"
+Error (9322): No matching declaration found after argument-dependent lookup
+","
+
+Try to use vm.deal()
+Also try put the function testDust() public in contract ContractTest is Test {}
+deal(address(LocalHLP) , bob , 10000e18 ,);
+
+"
+"
+Same block Swap before an Approval is allowed?
+","
+Here's what happened:
+
+The first transaction is swap from some ETH to the iGP token.
+
+The second transaction is approval for subsequent iGP trading.
+
+
+The swap does not need an approval because the user is not sending any token to the contract, they are sending ETH, which is the native currency of the Ethereum blockchain and is handled in a specific way both by the chain and by Uniswap contracts.
+The user probably fired the approval tx immediately after the swap tx because they want to be able to sell iGP without any delay at the time they want to, in the future.
+"
+"
+How To Withdraw From A Smart Contract
+","
+No, you can't do that.
+The line ""when a fallback method exists, a function that isn't defined can be sent to the contract"" means when a function is not defined and you call it inside a contract then the fallback is called, but to execute the call correctly you would need to add the logic inside the fallback function. The fallback itself doesn't know what to do with the passed data it just executes with whatever logic you have provided inside the fallback function.
+"
+"
+Error happened while trying to execute a function inside a smart contract: Chainlink Functions Contract Deployment
+","
+Because the address is the owner itself or not the pending_address to take ownership of the contract.
+There are 2 steps to transfer the ownership of the contract.
+
+Current owner call function transferOwnership(newOwner).
+New owner call function acceptOwnership() to get the ownership.
+
+It looks like you miss the first step.
+In your contract, ConfirmedOwner.sol is imported to your contract through the line so the related functions are defined there.
+If you check the function acceptOwnership() in contract ConfirmedOwnerWithProposal, it can be found that address who calls the message has to be s_pendingOwner.
+The way to assign a new address to s_pendingOwner is to call the function transferOwnership(address to) which is also defined in the same contract.
+"
+"
+ELI5: Converting an arbitrary gas cost in Remix IDE to USD
+","
+It is depended on following factors,
+
+Chain you are using
+Gas price at the time
+Price of the Native currency of the chain
+
+Let's consider you made the transaction on Ethereum chain just now (2023-11-17T15:17:08Z).
+Current average gas price = 35 Gwei
+Gas cost for the tx = 139508 x 35 Gwei = 4882780 Gwei = 0.00488278 Eth (one gwei is 0.000000001 ETH)
+Eth price now = 1,939.08 USD
+Gas cost = 1,939.08 x 0.00488278 = 9.468 USD
+You can refer: Etherscan Coinmarketcap
+"
+"
+utf8ToBytes expected string, got object [closed]
+","
+const hash = toHex(keccak256(utf8ToBytes(""_move1Hash"")))
+"
+"
+Can't run Fe language on M2 MacOS Ventura: bad CPU type in executable
+","
+Installing Rosetta 2, Apple's x86-to-ARM translation layer, solved the problem.
+The following command installs Rosetta.
+/usr/sbin/softwareupdate --install-rosetta --agree-to-license
+
+"
+"
+Send transaction only with signature
+","
+zkSync uses layer 2 technology. Basically, you can see several Layer 2 scalable solutions like,
+
+Optimistic Rollups - Group up several off-chain (from mainnet) transactions together before submitting to the mainnet.
+Zero-Knowledge Rollups (ZK Rollups) - Bundle transactions together to be executed off-chain. (This is the scenario in zkSync)
+
+See more at https://crypto.com/university/ethereum-layer-2s
+"
+"
+TopsvilleNFT ,took 2000.00 and suspended my account for asking where was the 50eth they sent to paypal om 11/16/23 [duplicate]
+","
+I'm sorry to hear about your experience. Unfortunately, fraudulent activities like this are prevalent in the crypto space, the money is hard to recover.
+"
+"
+ethers.rs - PendingTransaction returns Ok(None)
+","
+It look like the issue was coming from the Nonce.
+Yesterday, when Nonce was set to ""None"", Transaction wouldn't pass as middleware was throwing a ""already known"" error, and when choosing a random nonce, I was at least getting the PendingTransaction.
+Today, when showing a colleague my issue, I put the Nonce back to ""None"" to show him the issue, and it worked.
+I think I will keep the post up as ""archive"", but I really have no idea what changed between these two days.
+"
